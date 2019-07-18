@@ -1,0 +1,150 @@
+
+<!DOCTYPE HTML>
+<head>
+    <title>this is a dice game!!!</title>
+    <style>
+        .btn-cls{
+            position:absolute;
+            top:400px;
+            left:250px;
+        }
+        #mesg{
+            position:absolute;
+            top:350px;
+            left:250px;
+            color:red;
+        }
+        #discr{
+            position:absolute;
+            top:300px;
+            left:250px;
+            color:green;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600">
+        your browser doesn't support the HTML5 element canvas.
+    </canvas>
+    <p id="mesg"></p>
+    <p id="discr">金钱：100</p>
+    <button id="btn" class="btn-cls" onclick="Throw()" >开始投掷</button>
+    <script>
+         //骰子游戏：两点数之和大于7则赢。初始金额：100
+        var ctx; // canvas上下文
+        var discr = document.getElementById('discr');
+        var mesg = document.getElementById('mesg');
+        var point1,point2;  //  点数1，2
+        var money = 100;// 金额
+
+        ctx = document.getElementById('canvas').getContext('2d');
+        // 绘制画布
+        ctx.strokeRect(0,0,600,600);
+        // 绘制两个骰子
+        ctx.strokeRect(100,100,150,150);
+        ctx.strokeRect(350,100,150,150);
+
+        function Throw(){   // 投掷按钮
+            point1 = Math.ceil(Math.random() * 6);
+            point2 = Math.ceil(Math.random() * 6);
+            DrawPoint(point1,point2);
+            pointOperation();
+        }
+
+        function DrawPoint(drawPoint1,drawPoint2){ // 绘制骰子上面的点
+            ctx.clearRect(110,110,130,130);
+            ctx.clearRect(360,110,130,130);
+            ctx.beginPath();
+            //<!-- alert(drawPoint1); -->
+            switch(drawPoint1)
+            {
+                case 1: 
+                        arcs(175,175,5,0,2 * Math.PI);
+                        break;
+                case 2: 
+                        arcs(135,135,5,0,2 * Math.PI);
+                        arcs(215,215,5,0,2 * Math.PI);
+                        break;
+                case 3: 
+                        arcs(135,135,5,0,2 * Math.PI);
+                        arcs(175,175,5,0,2 * Math.PI);
+                        arcs(215,215,5,0,2 * Math.PI);
+                        break;
+                case 4: 
+                        arcs(135,135,5,0,2 * Math.PI);
+                        arcs(135,215,5,0,2 * Math.PI);
+                        arcs(215,215,5,0,2 * Math.PI);
+                        arcs(215,135,5,0,2 * Math.PI);
+                        break;
+                case 5: 
+                        arcs(135,135,5,0,2 * Math.PI);
+                        arcs(135,215,5,0,2 * Math.PI);
+                        arcs(175,175,5,0,2 * Math.PI);
+                        arcs(215,215,5,0,2 * Math.PI);
+                        arcs(215,135,5,0,2 * Math.PI);
+                        break;
+                case 6: 
+                        arcs(135,135,5,0,2 * Math.PI);
+                        arcs(135,175,5,0,2 * Math.PI);
+                        arcs(135,215,5,0,2 * Math.PI);
+                        arcs(215,135,5,0,2 * Math.PI);
+                        arcs(215,175,5,0,2 * Math.PI);
+                        arcs(215,215,5,0,2 * Math.PI);
+            }
+            switch(drawPoint2){
+                case 1: 
+                        arcs(425,175,5,0,2 * Math.PI);
+                        break;
+                case 2: 
+                        arcs(385,135,5,0,2 * Math.PI);
+                        arcs(465,215,5,0,2 * Math.PI);
+                        break;
+                case 3: 
+                        arcs(385,135,5,0,2 * Math.PI);
+                        arcs(425,175,5,0,2 * Math.PI);
+                        arcs(465,215,5,0,2 * Math.PI);
+                        break;
+                case 4: 
+                        arcs(385,135,5,0,2 * Math.PI);
+                        arcs(385,215,5,0,2 * Math.PI);
+                        arcs(465,215,5,0,2 * Math.PI);
+                        arcs(465,135,5,0,2 * Math.PI);
+                        break;
+                case 5: 
+                        arcs(385,135,5,0,2 * Math.PI);
+                        arcs(385,215,5,0,2 * Math.PI);
+                        arcs(425,175,5,0,2 * Math.PI);
+                        arcs(465,215,5,0,2 * Math.PI);
+                        arcs(465,135,5,0,2 * Math.PI);
+                        break;
+                case 6: 
+                        arcs(385,135,5,0,2 * Math.PI);
+                        arcs(385,175,5,0,2 * Math.PI);
+                        arcs(385,215,5,0,2 * Math.PI);
+                        arcs(465,135,5,0,2 * Math.PI);
+                        arcs(465,175,5,0,2 * Math.PI);
+                        arcs(465,215,5,0,2 * Math.PI);
+            }
+            ctx.fillStyle = "block";
+            ctx.closePath();
+            ctx.fill();
+        }
+        function arcs(point_x,point_y,redius,begin,end){
+            ctx.moveTo(point_x + redius,point_y);
+            ctx.arc(point_x,point_y,redius,0,2 * Math.PI);
+        }
+        function pointOperation(){
+            var pointCount = point1+point2;
+            if(pointCount>7){
+                money+=10;
+                mesg.innerHTML = "你赢了！获得金钱10";
+            }else if(pointCount == 7){
+                mesg.innerHTML = "平局！重新开始";
+            }else{
+                money-=10;
+                mesg.innerHTML= "你输了！失去金钱10";
+            }
+            discr.innerHTML = "金钱："+ money;
+        }
+    </script>
+</body>
